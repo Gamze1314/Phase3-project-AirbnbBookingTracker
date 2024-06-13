@@ -34,15 +34,14 @@ class Booking:
     def check_in_date(self, value):
         if not isinstance(value, str):
             raise TypeError('Check-in date must be a string')
-        # Convert string to datetime object
-        date_string = '2024-08-20'
-# Parse the date string into a datetime object
-        date_object = datetime.strptime(date_string, '%Y-%m-%d')
 
-# Format the datetime object to display only the date (year-month-day)
+        # Convert string to datetime object
+        date_object = datetime.strptime(value, '%Y-%m-%d')
+
+        # Format the datetime object to display only the date (year-month-day)
         formatted_date = date_object.strftime('%Y-%m-%d')
+
         self._check_in_date = formatted_date
-        # strptime is a class method
 
     @property
     def check_out_date(self):
@@ -52,13 +51,13 @@ class Booking:
     def check_out_date(self, value):
         if not isinstance(value, str):
             raise TypeError('Check-out date must be a string')
-        # Convert string to datetime object
-        date_string = '2024-08-20'
-# Parse the date string into a datetime object
-        date_object = datetime.strptime(date_string, '%Y-%m-%d')
 
-# Format the datetime object to display only the date (year-month-day)
+        # Convert string to datetime object
+        date_object = datetime.strptime(value, '%Y-%m-%d')
+
+        # Format the datetime object to display only the date (year-month-day)
         formatted_date = date_object.strftime('%Y-%m-%d')
+
         self._check_out_date = formatted_date
 
         # Check if check-out date is before or equal to check-in date
@@ -234,8 +233,5 @@ class Booking:
         rows = CURSOR.execute(sql, (self.rental_id,)).fetchall()
         return [Rental.instance_from_db(row) for row in rows]
 
-# breakpoint()
-
-# ipdb.set_trace()
 # if __name__ == "__main__":
 # calculate total amount for each booking = length of stay * daily rate.
