@@ -4,13 +4,11 @@
 from helpers import (
     exit_program,
     list_rentals,
-    find_rental_by_id,
     find_rental_by_guest_name,
     create_rental,
     update_rental,
     delete_rental,
     list_bookings,
-    find_booking_by_id,
     create_booking,
     update_booking,
     delete_booking,
@@ -29,18 +27,16 @@ def main():
                 if rental_choice == "1":
                     list_rentals()
                 elif rental_choice == "2":
-                    find_rental_by_id()
-                elif rental_choice == "3":
                     find_rental_by_guest_name()
-                elif rental_choice == "4":
+                elif rental_choice == "3":
                     create_rental()
-                elif rental_choice == "5":
+                elif rental_choice == "4":
                     update_rental()
-                elif rental_choice == "6":
+                elif rental_choice == "5":
                     delete_rental()
-                elif rental_choice == "7":
+                elif rental_choice == "6":
                     break  # Go back to the main menu
-                elif rental_choice == "8":
+                elif rental_choice == "7":
                     exit_program()
                 else:
                     print("Invalid choice. Please try again.")
@@ -51,18 +47,16 @@ def main():
                 if booking_choice == "1":
                     list_bookings()
                 elif booking_choice == "2":
-                    find_booking_by_id()
-                elif booking_choice == "3":
                     create_booking()
-                elif booking_choice == "4":
+                elif booking_choice == "3":
                     update_booking()
-                elif booking_choice == "5":
+                elif booking_choice == "4":
                     delete_booking()
-                elif booking_choice == "6":
+                elif booking_choice == "5":
                     list_rental_bookings()
-                elif booking_choice == "7":
+                elif booking_choice == "6":
                     break  # Go back to the main menu
-                elif booking_choice == "8":
+                elif booking_choice == "7":
                     exit_program()
                 else:
                     print("Invalid choice. Please try again.")
@@ -73,8 +67,10 @@ def main():
 
 
 def main_menu():
+    print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
     house_art = """
         *****Welcome to AirbnbBookingTracker!*****
+    
                     ______
                    /      \\
                   /        \\
@@ -91,6 +87,7 @@ def main_menu():
                  |__________|
     """
     print(house_art)
+    print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
     print(">> Enter P or p for Property Management")
     print(">> Enter B or b for Booking Management")
     print(">> Enter E or e to exit")
@@ -99,25 +96,23 @@ def main_menu():
 def rental_menu():
     print("\n*** Property Management ***")
     print("1. List all properties")
-    print("2. Find rental by ID")
-    print("3. Find rental by guest name")
-    print("4. Create a new property record")
-    print("5. Update a property record")
-    print("6. Delete a property record")
-    print("7. Back to Main Menu")
-    print("8. Exit")
+    print("2. Find rental by guest name")
+    print("3. Add a new property record")
+    print("4. Update a property record")
+    print("5. Delete a property record")
+    print("6. Back to Main Menu")
+    print("7. Exit")
 
 
 def booking_menu():
     print("\n*** Booking Management ***")
     print("1. List all bookings")
-    print("2. Find booking by ID")
-    print("3. Create a new booking record")
-    print("4. Update a booking record")
-    print("5. Delete a booking record")
-    print("6. List all bookings for a property")
-    print("7. Back to Main Menu")
-    print("8. Exit")
+    print("2. Create a new booking record")
+    print("3. Update a booking record")
+    print("4. Delete a booking record")
+    print("5. List all bookings for a property")
+    print("6. Back to Main Menu")
+    print("7. Exit")
 
 
 if __name__ == "__main__":

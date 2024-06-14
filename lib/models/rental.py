@@ -1,4 +1,5 @@
 from models.__init__ import CONN, CURSOR
+from models.booking import Booking
 
 
 class Rental:
@@ -11,6 +12,9 @@ class Rental:
         self.address = address
         self.number_of_rooms = number_of_rooms
         self.daily_rate = daily_rate
+
+    def __str__(self):  # print rental details str representation
+        return f'Property Type: {self.property_type}, Address: {self.address}, Number of Rooms: {self.number_of_rooms}, Daily Rate: {self.daily_rate}'
 
     # Create properties for property type, address(str), number of rooms should be integer in the db.
     @property
@@ -113,21 +117,23 @@ class Rental:
         """ Initialize a new Rental instance and save the object to the database """
         rental = cls(property_type, address, number_of_rooms, daily_rate)
         rental.save()
+        cls.all[rental.id] = rental
         return rental
     
     def delete(self):
         """Delete the table row corresponding to the current Rental instance."""
         sql = """
             DELETE FROM rentals
-            WHERE id =?
+            WHERE id=?
             """
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
-        # Delete the dictionary entry using id as the key
-        del type(self).all[self.id]
+    # Delete the dictionary entry using id as the key
+        if self.id in type(self).all:
+            del type(self).all[self.id]
 
-        # Set the id to None
+    # Set the id to None
         self.id = None
     
 
@@ -138,32 +144,18 @@ class Rental:
         # Check the dictionary for an existing instance using the row's primary key
         rental = cls.all.get(row[0])
         if rental:
-            print("Rental found in cache:", rental)
             rental.property_type = row[1]
             rental.address = row[2]
             rental.number_of_rooms = row[3]
             rental.daily_rate = row[4]
         else:
-           print("Rental not found in cache. Creating new instance.")
            # if not in dictionary, create new instance and add to dictionary
            rental = cls(row[1], row[2], row[3], row[4])
            rental.id = row[0]
            cls.all[rental.id] = rental
 
-        print("Returning rental instance:", rental)
         return rental
     
-    @classmethod
-    def find_by_id(cls, id):
-        """Return a Rental object corresponding to the table row matching the specified primary key"""
-        sql = """
-            SELECT *
-            FROM rentals
-            WHERE id =?
-            """
-        CURSOR.execute(sql, (id,))
-        row = CURSOR.fetchone()
-        return cls.instance_from_db(row) if row else None
 
     @classmethod
     def get_all(cls):
@@ -179,15 +171,28 @@ class Rental:
     
     @classmethod
     def find_by_guest_name(cls, guest_name):
-        """Return a Rental object corresponding to first table row matching specified guest name"""
+        """Return a list of Rental objects corresponding to rows matching the specified guest name."""
         sql = """
-            SELECT *
+            SELECT rentals.*
             FROM rentals
-            WHERE guest_name is ?
+            JOIN bookings ON rentals.id = bookings.rental_id
+            WHERE bookings.guest_name = ?
         """
 
-        row = CURSOR.execute(sql, (guest_name,)).fetchone()
-        return cls.instance_from_db(row) if row else None
+        rows = CURSOR.execute(sql, (guest_name,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows] if rows else []
+    
+    @classmethod
+    def find_by_address(cls, address):
+        """Return a list of Rental objects corresponding to rows matching the specified address."""
+        sql = """
+            SELECT rentals.*
+            FROM rentals
+            WHERE rentals.address =?
+        """
+
+        rows = CURSOR.execute(sql, (address,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows] if rows else []
 
 
     def bookings(self):

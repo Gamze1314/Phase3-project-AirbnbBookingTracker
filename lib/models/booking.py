@@ -111,19 +111,19 @@ class Booking:
     def update(self):
         sql = """
             UPDATE bookings
-            SET guest_name =?, check_in_date =?, check_out_date =?, rental_id =?
-            WHERE id =?
+            SET guest_name = ?, check_in_date = ?, check_out_date = ?
+            WHERE id = ?
             """
 
         CURSOR.execute(sql, (self.guest_name, self.check_in_date,
-                       self.check_out_date, self.rental_id, self.id))
+                       self.check_out_date, self.id))
         CONN.commit()
 
     def delete(self):
         """Delete the table row corresponding to the current Booking instance."""
         sql = """
             DELETE FROM bookings
-            WHERE id =?
+            WHERE id = ?
             """
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
@@ -142,18 +142,18 @@ class Booking:
         """Return a Booking object corresponding to the table row matching the specified primary key"""
         booking = cls.all.get(row[0])
         if booking:
-            print("Booking found in cache:", booking)
             booking.guest_name = row[1]
             booking.check_in_date = row[2]
             booking.check_out_date = row[3]
             booking.rental_id = row[4]
 
         else:
-            print("Booking not found in cache. Creating new instance.")
             # if not in dictionary, create new instance and add to dictionary
             booking = cls(row[1], row[2], row[3], row[4])
             booking.id = row[0]
             cls.all[booking.id] = booking
+        return booking
+
 
     @classmethod
     def find_by_id(cls, id):
@@ -167,6 +167,7 @@ class Booking:
 
         row = CURSOR.fetchone()  # a tuple containing all rows of the booking table
         return cls.instance_from_db(row) if row else None
+
 
     @classmethod
     def get_all(cls):
@@ -192,35 +193,6 @@ class Booking:
         row = CURSOR.execute(sql, (guest_name,)).fetchone()
         return cls.instance_from_db(row) if row else None
 
-    @classmethod
-    def find_by_rental_id(cls, rental_id):
-        sql = """SELECT *
-            FROM bookings
-            WHERE rental_id =?
-            """
-
-        row = CURSOR.execute(sql, (rental_id,)).fetchone()
-        return cls.instance_from_db(row) if row else None
-
-    @classmethod
-    def find_by_check_in_date(cls, check_in_date):
-        sql = """ SELECT *
-            FROM bookings
-            WHERE check_in_date=?
-            """
-        rows = CURSOR.execute(sql, (check_in_date,)).fetchall()
-        # converts each row to a Booking instance using instance_from_db()
-        return [cls.instance_from_db(row) for row in rows]
-
-    @classmethod
-    def find_by_check_out_date(cls, check_out_date):
-
-        sql = """ SELECT *
-            FROM bookings
-            WHERE check_out_date=?
-            """
-        rows = CURSOR.execute(sql, (check_out_date,)).fetchall()
-        return [cls.instance_from_db(row) for row in rows]
 
     # rentals => list all associated rentals
     def rentals(self):
@@ -233,5 +205,3 @@ class Booking:
         rows = CURSOR.execute(sql, (self.rental_id,)).fetchall()
         return [Rental.instance_from_db(row) for row in rows]
 
-# if __name__ == "__main__":
-# calculate total amount for each booking = length of stay * daily rate.

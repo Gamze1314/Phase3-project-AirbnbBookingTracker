@@ -30,8 +30,5 @@ def reset_database():
                    "2024-08-20", "2024-08-22", rental2.id)
     
 
-    for k, v in Booking.all.items():
-        print(k, v)
-
 reset_database()
 ipdb.set_trace()
