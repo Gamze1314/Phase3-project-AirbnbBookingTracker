@@ -6,7 +6,8 @@ import os
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
-#It uses os.system('cls' if os.name == 'nt' else 'clear') to clear the screen on both Windows and Unix-based systems
+# It uses os.system('cls' if os.name == 'nt' else 'clear') to clear the screen on both Windows and Unix-based systems
+
 
 def get_all_rentals():
     return Rental.get_all()
@@ -14,11 +15,11 @@ def get_all_rentals():
 
 def print_rentals():
     rentals = get_all_rentals()
-    print(f"There are {len(rentals)} properties found!")
-    print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
+    num_rentals = len(rentals)
+    print(f"There are {num_rentals} properties found!")
+    print("🏠" * num_rentals)
     for i, rental in enumerate(rentals, start=1):
         print(f"{i}. {rental}")
-    
 
 
 def find_rental_by_guest_name():
@@ -30,7 +31,6 @@ def find_rental_by_guest_name():
             print(f"{i}. {name.title()} is currently staying at {rental.address}. The property's daily rate ${rental.daily_rate}.")
     else:
         print(f'Guest name {name} not found')
-
 
 
 def create_rental():
@@ -46,7 +46,6 @@ def create_rental():
         print_rentals()
     except Exception as exc:
         print("Error creating department: ", exc)
-
 
 
 def update_rental():
@@ -90,9 +89,9 @@ def update_rental():
         print("Error updating property: ", exc)
 
 
-
 def delete_rental():
-    address = input("Enter the property's address in the following format '456 Main St': ")
+    address = input(
+        "Enter the property's address in the following format '456 Main St': ")
 
     # Find rentals by address
     rentals = Rental.find_by_address(address)
@@ -101,14 +100,15 @@ def delete_rental():
         print(f'The property at {address} is not found.')
     else:
         for rental in rentals:
-            if rental.address == str(address):  # Check if the lowercase rental's address matches the input address
+            # Check if the lowercase rental's address matches the input address
+            if rental.address == str(address):
                 print(f"Property found with address {address}.")
                 try:
                     rental.delete()  # Delete the rental
-                    print(f'Success: The property at {rental.address} has been deleted!')
+                    print(
+                        f'Success: The property at {rental.address} has been deleted!')
                 except Exception as exc:
                     print("Error deleting property: ", exc)
-
 
 
 # booking helper functions
@@ -118,7 +118,7 @@ def get_all_bookings():
 
 
 def print_bookings():
-    bookings = get_all_bookings() # a list of bookings
+    bookings = get_all_bookings()  # a list of bookings
     print(f"There are {len(bookings)} bookings found!")
     print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
     for i, booking in enumerate(bookings, start=1):
@@ -134,7 +134,8 @@ def create_booking():
     try:
         booking = Booking.create(
             guest_name, check_in_date, check_out_date, rental_id)
-        print(f'Success: The booking for {booking.guest_name} has been created!')
+        print(
+            f'Success: The booking for {booking.guest_name} has been created!')
         print_bookings()
     except Exception as exc:
         print("Error creating department: ", exc)
@@ -143,7 +144,8 @@ def create_booking():
 def update_booking():
     name = input("Enter the guest's name in following format 'Joseph Doe': ")
     if booking := Booking.find_by_guest_name(name):
-        print(f"Matching record found  >>>>   The guest '{booking.guest_name}' is checking out on {booking.check_out_date}")
+        print(
+            f"Matching record found  >>>>   The guest '{booking.guest_name}' is checking out on {booking.check_out_date}")
         try:
             guest_name = input("Enter the guest's name: ")
             check_in_date = input("Enter the check-in date (YYYY-MM-DD): ")
@@ -160,7 +162,7 @@ def update_booking():
             print("Error updating department: ", exc)
     else:
         print(f'Booking for guest "{name}" not found')
-    
+
     print_bookings()
 
 
@@ -182,7 +184,7 @@ def list_rental_bookings():
     address = input('Enter the property address: ')
     rentals = Rental.find_by_address(address)
 
-    if rentals: # rentals is a list of rentals.
+    if rentals:  # rentals is a list of rentals.
         for rental in rentals:
             # List associated bookings for each rental
             bookings = rental.bookings()

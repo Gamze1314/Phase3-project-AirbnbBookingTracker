@@ -13,7 +13,7 @@ from helpers import (
     update_booking,
     delete_booking,
     list_rental_bookings,
-    clear_screen,  # Import the clear_screen function
+    clear_screen,
 )
 
 
@@ -71,9 +71,9 @@ def main_menu():
     """
     print(house_art)
     print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
-    print(">> Enter P or p for Property Management")
-    print(">> Enter B or b for Booking Management")
-    print(">> Enter E or e to exit")
+    print(">> Enter P for Property Management")
+    print(">> Enter B for Booking Management")
+    print(">> Enter E to exit")
 
 
 def rental_menu_one():
@@ -144,7 +144,6 @@ def booking_menu_loop():
             exit_program()
         else:
             print("Invalid choice. Please try again.")
-
 
 
 def booking_menu_one():
