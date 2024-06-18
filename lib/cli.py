@@ -41,40 +41,9 @@ def main():
                     exit_program()
 
         elif choice.lower() == "b":
-            booking_menu()
+            booking_menu_loop()
 
         elif choice.lower() == "e":
-            exit_program()
-        else:
-            print("Invalid choice. Please try again.")
-
-
-def booking_menu():
-    while True:
-        booking_menu_one()
-        booking_choice = input("> ")
-        if booking_choice == "1":
-            print_bookings()
-            while True:
-                booking_menu_two()
-                booking_choice = input("> ")
-                if booking_choice == "1":
-                    create_booking()
-                elif booking_choice == "2":
-                    update_booking()
-                elif booking_choice == "3":
-                    delete_booking()
-                elif booking_choice == "4":
-                    break
-                elif booking_choice == "5":
-                    exit_program()
-                else:
-                    print("Invalid choice. Please try again.")
-        elif booking_choice == "2":
-            list_rental_bookings()
-        elif booking_choice == "3":
-            break  # Go back to the main menu
-        elif booking_choice == "4":
             exit_program()
         else:
             print("Invalid choice. Please try again.")
@@ -144,6 +113,38 @@ def rental_menu_loop():
             exit_program()
         else:
             print("Invalid choice. Please try again.")
+
+
+def booking_menu_loop():
+    while True:
+        booking_menu_one()
+        booking_choice = input("> ")
+        if booking_choice == "1":
+            print_bookings()
+            while True:
+                booking_menu_two()
+                booking_choice = input("> ")
+                if booking_choice == "1":
+                    create_booking()
+                elif booking_choice == "2":
+                    update_booking()
+                elif booking_choice == "3":
+                    delete_booking()
+                elif booking_choice == "4":
+                    break
+                elif booking_choice == "5":
+                    exit_program()
+                else:
+                    print("Invalid choice. Please try again.")
+        elif booking_choice == "2":
+            list_rental_bookings()
+        elif booking_choice == "3":
+            break  # Go back to the main menu
+        elif booking_choice == "4":
+            exit_program()
+        else:
+            print("Invalid choice. Please try again.")
+
 
 
 def booking_menu_one():
