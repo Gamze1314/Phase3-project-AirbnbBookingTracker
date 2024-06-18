@@ -1,14 +1,24 @@
 # lib/helpers.py
 from models.booking import Booking
 from models.rental import Rental
+import os
 
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+#It uses os.system('cls' if os.name == 'nt' else 'clear') to clear the screen on both Windows and Unix-based systems
 
-def list_rentals():
-    rentals = Rental.get_all()
+def get_all_rentals():
+    return Rental.get_all()
+
+
+def print_rentals():
+    rentals = get_all_rentals()
     print(f"There are {len(rentals)} properties found!")
+    print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
     for i, rental in enumerate(rentals, start=1):
         print(f"{i}. {rental}")
+    
 
 
 def find_rental_by_guest_name():
@@ -22,23 +32,27 @@ def find_rental_by_guest_name():
         print(f'Guest name {name} not found')
 
 
+
 def create_rental():
     property_type = input("Enter the property's type: ")
     address = input("Enter the property's location: ")
-    number_of_rooms = input("Enter the number of rooms: ")
-    daily_rate = input("Enter the daily booking rate: ")
+    number_of_rooms = int(input("Enter the number of rooms: "))
+    daily_rate = int(input("Enter the daily booking rate: "))
 
     try:
         rental = Rental.create(property_type, address,
                                number_of_rooms, daily_rate)
         print(f'Success: {rental} has been created!')
+        print_rentals()
     except Exception as exc:
         print("Error creating department: ", exc)
 
 
+
 def update_rental():
     address = input(
-        "Enter the property's address in following format '456 Main St': ")
+        "Enter the property's address in the format '456 Main St': ").lower()
+
     rentals = Rental.find_by_address(address)
 
     if not rentals:
@@ -71,40 +85,48 @@ def update_rental():
         # Update the rental in the database
         rental.update()
         print(f'Success: The property at {address} has been updated!')
+        print_rentals()
     except Exception as exc:
         print("Error updating property: ", exc)
 
 
+
 def delete_rental():
-    address = input(
-        "Enter the property's address in following format '456 Main St': ")
-    # returning a list of rental objects.
+    address = input("Enter the property's address in the following format '456 Main St': ")
+
+    # Find rentals by address
     rentals = Rental.find_by_address(address)
 
     if not rentals:
         print(f'The property at {address} is not found.')
+    else:
+        for rental in rentals:
+            if rental.address == str(address):  # Check if the lowercase rental's address matches the input address
+                print(f"Property found with address {address}.")
+                try:
+                    rental.delete()  # Delete the rental
+                    print(f'Success: The property at {rental.address} has been deleted!')
+                except Exception as exc:
+                    print("Error deleting property: ", exc)
 
-    if len(rentals) == 1:
-        rental = rentals[0]
-        print(f"Property found with address {address}.")
-        print(rental)
-        try:
-            rental.delete()
-            print(f'The property at {address} has been deleted.')
-        except Exception as exc:
-            print("Error deleting property: ", exc)
 
 
 # booking helper functions
-def list_bookings():
-    bookings = Booking.get_all() # a list of bookings
+
+def get_all_bookings():
+    return Booking.get_all()
+
+
+def print_bookings():
+    bookings = get_all_bookings() # a list of bookings
     print(f"There are {len(bookings)} bookings found!")
+    print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
     for i, booking in enumerate(bookings, start=1):
         print(f"{i}. {booking.guest_name} is checking out on {booking.check_out_date}.")
 
 
 def create_booking():
-    guest_name = input("Enter the guest's name: ")
+    guest_name = input("Enter the guest's name: ").title()
     check_in_date = input("Enter the check-in date (YYYY-MM-DD): ")
     check_out_date = input("Enter the check-out date (YYYY-MM-DD): ")
     rental_id = input("Enter the rental's id: ")
@@ -113,6 +135,7 @@ def create_booking():
         booking = Booking.create(
             guest_name, check_in_date, check_out_date, rental_id)
         print(f'Success: The booking for {booking.guest_name} has been created!')
+        print_bookings()
     except Exception as exc:
         print("Error creating department: ", exc)
 
@@ -120,7 +143,7 @@ def create_booking():
 def update_booking():
     name = input("Enter the guest's name in following format 'Joseph Doe': ")
     if booking := Booking.find_by_guest_name(name):
-        print("Matching record found!")
+        print(f"Matching record found  >>>>   The guest '{booking.guest_name}' is checking out on {booking.check_out_date}")
         try:
             guest_name = input("Enter the guest's name: ")
             check_in_date = input("Enter the check-in date (YYYY-MM-DD): ")
@@ -137,6 +160,8 @@ def update_booking():
             print("Error updating department: ", exc)
     else:
         print(f'Booking for guest "{name}" not found')
+    
+    print_bookings()
 
 
 def delete_booking():
@@ -149,6 +174,8 @@ def delete_booking():
             print("Error deleting department: ", exc)
     else:
         print(f'The booking for {name} not found')
+
+    print_bookings()
 
 
 def list_rental_bookings():

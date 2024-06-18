@@ -6,8 +6,9 @@ class Rental:
 
     all = {}
     # Initialize the rental object.
+
     def __init__(self, property_type, address, number_of_rooms, daily_rate, id=None):
-        self.id = id # pk
+        self.id = id  # pk
         self.property_type = property_type
         self.address = address
         self.number_of_rooms = number_of_rooms
@@ -21,11 +22,13 @@ class Rental:
     def property_type(self):
         return self._property_type
 
-    @property_type.setter # property_type setter method
+    @property_type.setter
     def property_type(self, value):
-        if not isinstance(value, str):
-            raise TypeError('Property type must be a string')
-        self._property_type = value
+        try:
+            if isinstance(value, str):
+                self._property_type = value
+        except Exception as exc:
+            raise TypeError('Property type must be a string.', exc)
 
     @property
     def address(self):
@@ -43,9 +46,12 @@ class Rental:
 
     @number_of_rooms.setter
     def number_of_rooms(self, value):
-        if not isinstance(value, int):
-            raise TypeError('Number of rooms must be an integer')
-        self._number_of_rooms = value
+        try:
+            if isinstance(value, int):
+                self._number_of_rooms = value
+        except Exception as exc:
+            raise TypeError(
+                'Number of rooms must be an integer and greater than zero.', exc)
 
     @property
     def daily_rate(self):
@@ -58,8 +64,9 @@ class Rental:
         self._daily_rate = value
 
 
-#create class methods to interact with the database.
-#create a table
+# create class methods to interact with the database.
+# create a table
+
     @classmethod
     def create_table(cls):
         """ Create a new table to persist the attributes of Rental instances """
@@ -93,7 +100,8 @@ class Rental:
             INSERT INTO rentals (property_type, address, number_of_rooms, daily_rate)
             VALUES (?,?,?,?)
             """
-        CURSOR.execute(sql, (self.property_type, self.address, self.number_of_rooms, self.daily_rate))
+        CURSOR.execute(sql, (self.property_type, self.address,
+                       self.number_of_rooms, self.daily_rate))
         self.id = CURSOR.lastrowid
         CONN.commit()
 
@@ -106,12 +114,12 @@ class Rental:
             SET property_type =?, address =?, number_of_rooms =?, daily_rate =?
             WHERE id =?
             """
-    
+
         CURSOR.execute(sql, (self.property_type, self.address,
                        self.number_of_rooms, self.daily_rate, self.id))
         CONN.commit()
 
-    #create new instance
+    # create new instance
     @classmethod
     def create(cls, property_type, address, number_of_rooms, daily_rate):
         """ Initialize a new Rental instance and save the object to the database """
@@ -119,7 +127,7 @@ class Rental:
         rental.save()
         cls.all[rental.id] = rental
         return rental
-    
+
     def delete(self):
         """Delete the table row corresponding to the current Rental instance."""
         sql = """
@@ -135,9 +143,9 @@ class Rental:
 
     # Set the id to None
         self.id = None
-    
 
-    #pull an instance from db with given row as a parameter 
+    # pull an instance from db with given row as a parameter
+
     @classmethod
     def instance_from_db(cls, row):
         """Return a Rental object having the attribute values from the table row."""
@@ -149,13 +157,12 @@ class Rental:
             rental.number_of_rooms = row[3]
             rental.daily_rate = row[4]
         else:
-           # if not in dictionary, create new instance and add to dictionary
-           rental = cls(row[1], row[2], row[3], row[4])
-           rental.id = row[0]
-           cls.all[rental.id] = rental
+            # if not in dictionary, create new instance and add to dictionary
+            rental = cls(row[1], row[2], row[3], row[4])
+            rental.id = row[0]
+            cls.all[rental.id] = rental
 
         return rental
-    
 
     @classmethod
     def get_all(cls):
@@ -168,7 +175,7 @@ class Rental:
         rows = CURSOR.execute(sql).fetchall()
 
         return [cls.instance_from_db(row) for row in rows]
-    
+
     @classmethod
     def find_by_guest_name(cls, guest_name):
         """Return a list of Rental objects corresponding to rows matching the specified guest name."""
@@ -181,7 +188,7 @@ class Rental:
 
         rows = CURSOR.execute(sql, (guest_name,)).fetchall()
         return [cls.instance_from_db(row) for row in rows] if rows else []
-    
+
     @classmethod
     def find_by_address(cls, address):
         """Return a list of Rental objects corresponding to rows matching the specified address."""
@@ -193,12 +200,12 @@ class Rental:
 
         rows = CURSOR.execute(sql, (address,)).fetchall()
         return [cls.instance_from_db(row) for row in rows] if rows else []
-
+    
 
     def bookings(self):
         # return all bookings associated with this rental.
         from models.booking import Booking
-        
+
         sql = """
             SELECT *
             FROM bookings
@@ -210,5 +217,3 @@ class Rental:
         return [
             Booking.instance_from_db(row) for row in rows
         ]
-
-
