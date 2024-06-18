@@ -1,23 +1,24 @@
 **AirbnbBookingTracker CLI Application**
 
-Table of Contents
-*Introduction
-*Features
-*Technologies
-*Installation
-*Usage
-*Main Menu
-*Property Management
-*Booking Management
-*Helper Functions
-*Contributing
+**Table of Contents**
+
+* Introduction
+* Features
+* Technologies
+* Installation
+* Usage
+* Main Menu
+* Property Management
+* Booking Management
+* Helper Functions
+* Contributing
 
 Introduction
 AirbnbBookingTracker is a command-line interface (CLI) application designed to manage property rentals and bookings. The application allows users to add, update, delete, and list properties and bookings efficiently. This CLI application is intended to be built to manage rental properties and guests' bookings for each property. The users are also able to add, update, delete, and list bookings individually.
 
 Features
-Property Management
-Booking Management for Associated Properties
+* Property Management
+* Booking Management for Associated Properties
 
 Technologies Used
 Python: The primary programming language used to develop the CLI application.
@@ -62,6 +63,7 @@ Once you run the application, you will be presented with the main menu:
 
 
 🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠
+
         *****Welcome to AirbnbBookingTracker!*****
 
                 ______
