@@ -18,48 +18,57 @@ AirbnbBookingTracker is a command-line interface (CLI) application designed to m
 
 Features
 * Property Management
-* Booking Management for Associated Properties
+* Booking Management
+
+* View all properties
+* Find rental by guest name
+* Add a new property
+* Update a property
+* Delete a property
+
+
+* View all bookings
+* Create a new booking
+* Update a booking
+* Delete a booking
+* List all bookings for a property
+
 
 Technologies Used
-Python: The primary programming language used to develop the CLI application.
-SQLite: A lightweight, disk-based database used to store rental and booking data.
-Object Relational Mapping (ORM): Used for database operations, making it easier to interact with the database using Python objects.
-Table Relations: Utilized to manage the relationships between rental and bookings table.
+* Python: The primary programming language used to develop the CLI application.
+* SQLite: A lightweight, disk-based database used to store rental and booking data.
+* Object Relational Mapping (ORM): Used for database operations, making it easier to interact with the database using Python objects.
+* Table Relations: Utilized to manage the relationships between rental and bookings table.
 
-View all properties
-Find rental by guest name
-Add a new property
-Update a property
-Delete a property
-
-
-List all bookings
-Create a new booking
-Update a booking
-Delete a booking
-List all bookings for a property
 
 Installation
+
 Clone the repository:
 
-git clone https://github.com/yourusername/AirbnbBookingTracker.git
-cd AirbnbBookingTracker
+* git clone https://github.com/yourusername/AirbnbBookingTracker.git
+* cd AirbnbBookingTracker
+
 
 Install the required dependencies:
 
-pip install -r requirements.txt
+* pip install -r requirements.txt
+
 
 Set up the database:
 
-Ensure you have your database configured and connected correctly as per your application requirements.
+* Ensure you have your database configured and connected correctly as per your application requirements.
+
 
 Usage
-Run the main CLI application:
+
+* Run the main CLI application:
 
 python cli.py
 
+
 Main Menu
-Once you run the application, you will be presented with the main menu:
+
+* Once you run the application, you will be presented with the main menu:
 
 
 🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠
@@ -95,10 +104,11 @@ Selecting P or p will take you to the Property Management menu:
 3. Back to Main Menu
 4. Exit
 
-View all properties: Lists all the properties.
-Find rental by guest name: Finds and lists properties based on guest name.
-Back to Main Menu: Returns to the main menu.
-Exit: Exits the application.
+* View all properties: Lists all the properties.
+* Find rental by guest name: Finds and lists properties based on guest name.
+* Back to Main Menu: Returns to the main menu.
+* Exit: Exits the application.
+
 
 Aditional Property Management options can be accessed after viewing properties:
 
@@ -112,7 +122,8 @@ Please select from below options:
 
 
 Booking Management
-Selecting B or b will take you to the Booking Management menu:
+
+* Selecting B or b will take you to the Booking Management menu:
 
 
 *** Booking Management ***
@@ -131,38 +142,40 @@ List all bookings: Additional booking management options can be accessed after v
 5. Exit
 
 
-List all bookings for a property: Lists bookings for a particular property.
-Back to Main Menu: Returns to the main menu.
-Exit: Exits the application.
+* List all bookings for a property: Lists bookings for a particular property.
+* Back to Main Menu: Returns to the main menu.
+* Exit: Exits the application.
 
 Helper Functions
+
 The application uses several helper functions to manage the rental and booking data:
 
-exit_program: Exits the application.
-print_rentals: Prints the list of all rentals.
-find_rental_by_guest_name: Finds and prints rentals based on guest name.
-create_rental: Adds a new rental property.
-update_rental: Updates an existing rental property.
-delete_rental: Deletes a rental property.
-print_bookings: Lists all bookings.
-create_booking: Adds a new booking.
-update_booking: Updates an existing booking.
-delete_booking: Deletes a booking.
-list_rental_bookings: Lists all bookings for a specific property.
-clear_screen: Clears the console screen for better readability.
+* exit_program: Exits the application.
+* print_rentals: Prints the list of all rentals.
+* find_rental_by_guest_name: Finds and prints rentals based on guest name.
+* create_rental: Adds a new rental property.
+* update_rental: Updates an existing rental property.
+* delete_rental: Deletes a rental property.
+* print_bookings: Lists all bookings.
+* create_booking: Adds a new booking.
+* update_booking: Updates an existing booking.
+* delete_booking: Deletes a booking.
+* list_rental_bookings: Lists all bookings for a specific property.
+* clear_screen: Clears the console screen for better readability.
 
 
 Contributing
-Fork the repository.
-Create your feature branch (git checkout -b feature/AmazingFeature).
-Commit your changes (git commit -m 'Add some AmazingFeature').
-Push to the branch (git push origin feature/AmazingFeature).
-Open a pull request.
+
+* Fork the repository.
+* Create your feature branch (git checkout -b feature/AmazingFeature).
+* Commit your changes (git commit -m 'Add some AmazingFeature').
+* Push to the branch (git push origin feature/AmazingFeature).
+* Open a pull request.
 
 
 
 
-DB Diagram is created to demonstrate which rental and booking information is used to create instances.
+The following database diagram illustrates the attributes used to create instances for rentals and bookings, as well as the relationships between the tables.
 
 
 ![alt text](image.png)
