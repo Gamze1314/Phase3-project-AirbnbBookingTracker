@@ -165,6 +165,18 @@ class Rental:
         return rental
 
     @classmethod
+    def find_by_id(cls, id):
+        """Return a Rental object corresponding to the table row matching the specified primary key"""
+        sql = """
+            SELECT *
+            FROM rentals
+            WHERE id =? """
+        
+        row = CURSOR.execute(sql, (id,),)
+        return cls.instance_from_db(CURSOR.fetchone()) if row else None
+
+
+    @classmethod
     def get_all(cls):
         """Return a list containing a Rental object per row in the table"""
         sql = """
