@@ -80,7 +80,7 @@ def rental_menu_one():
     print("\n*** Property Management ***")
     print("1. View all properties")
     print("2. Find rental by guest name")
-    print("3. Back to Main Menu")
+    print("3. Back to Previous Menu")
     print("4. Exit")
 
 
@@ -90,7 +90,7 @@ def rental_menu_two():
     print("1. Add a new property record")
     print("2. Update a property record")
     print("3. Delete a property record")
-    print("4. Back to Main Menu")
+    print("4. Back to Previous Menu")
     print("5. Exit")
 
 
@@ -150,7 +150,7 @@ def booking_menu_one():
     print("\n*** Booking Management ***")
     print("1. List all bookings")
     print("2. List all bookings for a property")
-    print("3. Back to Main Menu")
+    print("3. Back to Previous Menu")
     print("4. Exit")
 
 
@@ -159,7 +159,7 @@ def booking_menu_two():
     print("1. Create a new booking record")
     print("2. Update a booking record")
     print("3. Delete a booking record")
-    print("4. Back to Main Menu")
+    print("4. Back to Previous Menu")
     print("5. Exit")
 
 
