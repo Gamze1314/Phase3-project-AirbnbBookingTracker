@@ -19,14 +19,14 @@ def reset_database():
 
     # Create bookings for rental1
         Booking.create("Joseph Doe",
-                       "2024-05-01", "2024-05-06", rental1.id)
+                       "2024-05-01", "2024-05-06")
         Booking.create("Jane Smith",
-                       "2024-06-15", "2024-06-18", rental1.id)
+                       "2024-06-15", "2024-06-18")
 
         Booking.create("Alice Johnson",
-                       "2024-07-10", "2024-07-17", rental2.id)
+                       "2024-07-10", "2024-07-17")
         Booking.create("Bob Brown",
-                       "2024-08-20", "2024-08-22", rental2.id)
+                       "2024-08-20", "2024-08-22")
 
     except Exception as exc:
         print("Error creating database: ", exc)

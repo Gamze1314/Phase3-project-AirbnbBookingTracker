@@ -25,7 +25,7 @@ def main():
         choice = input("> ")
         if choice.lower() == "p":
             while True:
-                rental_menu_one()
+                rental_menu_one() # displays the menu for property management.
                 rental_choice = input("> ")
                 if rental_choice == "1":
                     print_rentals()

@@ -129,11 +129,17 @@ def create_booking():
     guest_name = input("Enter the guest's name: ").title()
     check_in_date = input("Enter the check-in date (YYYY-MM-DD): ")
     check_out_date = input("Enter the check-out date (YYYY-MM-DD): ")
-    rental_id = input("Enter the rental's id: ")
+    address = input("Enter the address of the property: ")
+
+    rental = Rental.find_by_address(address)
+
+    while not rental:
+        print("Not a valid address.Please try again.")
+        address = input("Enter the address of the property: ")
+        rental = Rental.find_by_address(address)
 
     try:
-        booking = Booking.create(
-            guest_name, check_in_date, check_out_date, rental_id)
+        booking = Booking.create(guest_name, check_in_date, check_out_date, rental[0].id)
         print(
             f'Success: The booking for {booking.guest_name} has been created!')
         print_bookings()

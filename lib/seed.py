@@ -35,10 +35,19 @@ def seed_database():
         {"guest_name": "Bob B.", "check_in_date": "2024-08-20",
             "check_out_date": "2024-08-22", "rental_id": 2}
     ]
+    
     for booking_data in bookings_data:
-        booking = Booking(**booking_data)
-        booking.save()
+        Booking.create(**booking_data)
 
+
+
+# rentals = Rental.get_all()
+# bookings = Booking.get_all()
+
+# bookings[0].rental_id = rentals[0].id
+# bookings[0].update()
+
+    
 
 seed_database()
 print("Seeded database")

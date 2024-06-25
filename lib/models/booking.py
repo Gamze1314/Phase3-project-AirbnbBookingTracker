@@ -7,14 +7,26 @@ class Booking:
     all = {}
 
     # initialize
-    def __init__(self, guest_name, check_in_date, check_out_date, rental_id, id=None):
+    def __init__(self, guest_name, check_in_date, check_out_date, rental_id=None, id=None):
         self.id = id  # pk
         self.guest_name = guest_name
         self.check_in_date = check_in_date
         self.check_out_date = check_out_date
-        self.rental_id = rental_id
+        self.rental_id = rental_id #fk
 
     # properties to validate the type of data user enters
+
+    @property
+    def rental_id(self):
+        return self._rental_id
+
+    @rental_id.setter
+    def rental_id(self, value):
+        if isinstance(value, int):
+            self._rental_id = value
+        else:
+            raise TypeError('Rental ID must be an integer')
+
 
     @property
     def guest_name(self):
@@ -111,12 +123,12 @@ class Booking:
     def update(self):
         sql = """
             UPDATE bookings
-            SET guest_name = ?, check_in_date = ?, check_out_date = ?
+            SET guest_name = ?, check_in_date = ?, check_out_date = ?, rental_id = ?
             WHERE id = ?
             """
 
         CURSOR.execute(sql, (self.guest_name, self.check_in_date,
-                       self.check_out_date, self.id))
+                       self.check_out_date, self.rental_id, self.id))
         CONN.commit()
 
     def delete(self):

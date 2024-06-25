@@ -8,7 +8,7 @@ class Rental:
     # Initialize the rental object.
 
     def __init__(self, property_type, address, number_of_rooms, daily_rate, id=None):
-        self.id = id  # pk
+        self.id = id  # pk- db is auto-incrementing id once it is saved to the db.
         self.property_type = property_type
         self.address = address
         self.number_of_rooms = number_of_rooms
