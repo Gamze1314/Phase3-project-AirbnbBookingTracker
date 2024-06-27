@@ -43,10 +43,10 @@ def main_rental_menu():
         elif rental_choice == "a":
             create_rental()
         elif rental_choice == "u":
-            rental_id = int(input("Please select property number: "))
+            rental_id = int(input("Please select property number (1,2...): "))
             update_rental(rental_id)
         elif rental_choice == "d":
-            rental_id = int(input("Please select property number: "))
+            rental_id = int(input("Please select property number (1,2...): "))
             delete_rental(rental_id)
         elif rental_choice.lower() == "b": # go back to main() menu
             break
@@ -65,11 +65,8 @@ def booking_management_loop():
         elif booking_choice == "c":
             #create a new booking after listing all rentals and let the user choose the rental to add new booking. 
             print_all_rentals()
-            try:
-                rental_id = int(input("Please select property number: "))
-                create_booking(rental_id)
-            except ValueError:
-                print("Invalid input. Please enter a numeric property number.")
+            rental_id = input("\nPlease select property number (1,2...): ")
+            create_booking(rental_id)
         elif booking_choice == "b":
             break
         elif booking_choice == "e":
@@ -141,9 +138,9 @@ def rental_menu_one():
 
 
 def booking_management_menu():
-    print("\n*** Bookings Menu ***")
+    print("\n*** Bookings Menu ***\n")
     print(">> Enter V to view all bookings")
-    print(">> Enter C to create a new booking")
+    print(">> Enter C to create a new booking for an existing address")
     print(">> Enter B to go back to the previous menu")
     print(">> Enter E to exit")
 

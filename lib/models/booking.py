@@ -16,7 +16,7 @@ class Booking:
         self.check_in_date = check_in_date
         self.check_out_date = check_out_date
         self.rental_id = rental_id #fk
-  
+        # self.rental = Rental.all.get() # Reference to the Rental object
 
     # properties to validate the type of data user enters
 

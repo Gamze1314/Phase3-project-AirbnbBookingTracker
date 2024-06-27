@@ -9,6 +9,7 @@ def get_all_rentals():
 
 def print_all_rentals():
     rentals = get_all_rentals()
+    print("\n*** Existing Properties ***\n")
     for i, rental in enumerate(rentals, start=1):
         print(f"{i}. 🏠 {rental}")
 
@@ -105,21 +106,44 @@ def print_sorted_bookings():
             print(f"The booking {booking.guest_name} at (unknown address)")
 
 
-def create_booking(rental_id):
-    #prompt user for booking details.
-    guest_name = input("Enter the guest's name: ").title()
-    check_in_date = input("Enter the check-in date (YYYY-MM-DD): ")
-    check_out_date = input("Enter the check-out date (YYYY-MM-DD): ")
-
+def create_booking(rental_id, guest_name=None):
+    # Validating rental_id, guest_name.
+    rental = Rental.find_by_id(rental_id)
+    # validating rental id ; edge case if user enters a number that does not exist in the database.
+    
+    if not rental:
+        print("The property is not found. Please try a valid property number.Please select from the existing properties.")
+        print_all_rentals()
+        rental_id = input("\nPlease select property number (1,2...): ")
+        create_booking(rental_id)
+    
     try:
-        booking = Booking.create(
-            guest_name, check_in_date, check_out_date, rental_id)
-        print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
-        print(
-            f' 📅 New booking for {booking.guest_name} has been created!')
+        rental_id = int(rental_id)
     except Exception as exc:
-        print("Please try again: ", exc)
+        print("\nThe property number must be numerical. \n")
+        # re-prompting user for the prop. number
+        rental_id = input("\nPlease select property number (1,2...): ")
+        #recalling func w new input. if you do not call the func again, use return => goes back to the main menu.
+        create_booking(rental_id)
+    guest_name = input("Enter the guest's name: ").title()
 
+    if guest_name.isalpha():
+   
+        check_in_date = input("Enter the check-in date (YYYY-MM-DD): ")
+        check_out_date = input("Enter the check-out date (YYYY-MM-DD): ")
+
+        try:
+            booking = Booking.create(
+                guest_name, check_in_date, check_out_date, rental_id)
+            print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
+            print(
+                f' 📅 New booking for {booking.guest_name} has been created!')
+        except Exception as exc:
+            print("Please try again: ", exc)
+    else:
+        print("\nThe guest name can only contain letters.\n")
+        #recalling func to re-prompt for guest name, passing rental id.
+        create_booking(rental_id)
 
 def update_booking(rental_id):
     rental = Rental.find_by_id(rental_id)
