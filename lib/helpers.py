@@ -72,10 +72,17 @@ def delete_rental(rental_id):
 def get_all_bookings():
     return Booking.get_all()
 
+#validate rental_id ; whether exists in db and numberical value.
+def validate_rental_id(rental_id):
+    # validating rental id ; edge case if user enters a number that does not exist in the database.if it can't find the rental will keep reprompts you until you enter the correct rental number.
+    if isinstance(rental_id, int) and rental_id > 0:
+        rental = Rental.find_by_id(rental_id)
+        return rental is not None
+    else:
+        return False
 
 def print_bookings_by_rental_id(rental_id):
     rental = Rental.find_by_id(rental_id)
-
 
     if rental:
         bookings = rental.bookings()
@@ -86,6 +93,7 @@ def print_bookings_by_rental_id(rental_id):
                 f"{i}. 📅 {booking.guest_name} is checking out on {booking.check_out_date}.")
     else:
         print(f"No bookings found at rental address {rental.address}.")
+
 
 
 def print_sorted_bookings():

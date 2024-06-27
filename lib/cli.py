@@ -12,6 +12,7 @@ from helpers import (
     create_booking,
     update_booking,
     delete_booking,
+    validate_rental_id,
 )
 
 
@@ -24,7 +25,7 @@ def main():
 
         if choice.lower() == "p":
             main_rental_menu()
-        elif choice.lower() == "b": #for booking management
+        elif choice.lower() == "b":  # for booking management
             booking_management_loop()
         elif choice.lower() == "e":
             exit_program()
@@ -34,11 +35,18 @@ def main_rental_menu():
     while True:
         print_all_rentals()
         rental_menu_one()  # Prints options for rentals
-        rental_choice = input("\nPlease enter your selection (A, U, D, B, E or 1, 2...to manage bookings): ").lower()
-
+        rental_choice = input(
+            "\nPlease enter your selection (A, U, D, B, E or 1, 2...to manage bookings): ").lower()
+        
         if rental_choice.isdigit():
             rental_id = int(rental_choice)
-            booking_menu_loop_one(rental_id)
+            rental_exists = validate_rental_id(rental_id) # return True or false
+            if rental_exists:
+                print_bookings_by_rental_id(rental_id)
+                # if user selects the rental number and is valid, it will show the booking menu to a,u,d,e,b.
+                booking_menu_loop_one(rental_id)
+            else:
+                print("\nInvalid rental number. Please try again.\n")
 
         elif rental_choice == "a":
             create_rental()
@@ -48,12 +56,13 @@ def main_rental_menu():
         elif rental_choice == "d":
             rental_id = int(input("Please select property number (1,2...): "))
             delete_rental(rental_id)
-        elif rental_choice.lower() == "b": # go back to main() menu
+        elif rental_choice.lower() == "b":  # go back to main() menu
             break
         elif rental_choice.lower() == "e":
             exit_program()
         else:
             print("Invalid choice. Please try again.")
+
 
 def booking_management_loop():
     while True:
@@ -63,7 +72,7 @@ def booking_management_loop():
         if booking_choice == "v":
             print_sorted_bookings()
         elif booking_choice == "c":
-            #create a new booking after listing all rentals and let the user choose the rental to add new booking. 
+            # create a new booking after listing all rentals and let the user choose the rental to add new booking.
             print_all_rentals()
             rental_id = input("\nPlease select property number (1,2...): ")
             create_booking(rental_id)
@@ -75,13 +84,15 @@ def booking_management_loop():
             print("Invalid choice. Please try again.")
 
 
-#create loop for listing rental bookings and update, create, delete booking menu
-# this will be displayed after user select one of enumerated numbers (rental id). 
+# create loop for listing rental bookings and update, create, delete booking menu
+# this will be displayed after user select one of enumerated numbers (rental id).
 def booking_menu_loop_one(rental_id):
     while True:
-        print_bookings_by_rental_id(rental_id)
-        booking_menu_two() # options a,u, d, b, e for bookings associated with rental_id
-        booking_choice = input("\nPlease enter your selection (A, U, D, B, E): ").lower() #store user input
+        # validate and print bookings if rental id exists.
+        # print_bookings_by_rental_id(rental_id)
+        booking_menu_two()  # options a,u, d, b, e for bookings associated with rental_id
+        booking_choice = input(
+            "\nPlease enter your selection (A, U, D, B, E): ").lower()  # store user input
 
         if booking_choice == "a":
             create_booking(rental_id)
@@ -95,7 +106,6 @@ def booking_menu_loop_one(rental_id):
             exit_program()
         else:
             print("Invalid choice. Please try again.")
-
 
 
 def main_menu():
@@ -134,7 +144,6 @@ def rental_menu_one():
     print(">> Enter D to delete a property")
     print(">> Enter B to go back to the previous menu")
     print(">> Enter E to exit")
-
 
 
 def booking_management_menu():
