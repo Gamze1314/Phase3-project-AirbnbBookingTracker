@@ -34,7 +34,7 @@ def main_rental_menu():
     while True:
         print_all_rentals()
         rental_menu_one()  # Prints options for rentals
-        rental_choice = input("\nPlease enter your selection (A, U, D, B, E or 1, 2...): ").lower()
+        rental_choice = input("\nPlease enter your selection (A, U, D, B, E or 1, 2...to manage bookings): ").lower()
 
         if rental_choice.isdigit():
             rental_id = int(rental_choice)
