@@ -8,7 +8,7 @@ from helpers import (
     create_rental,
     update_rental,
     delete_rental,
-    print_bookings,
+    print_sorted_bookings,
     create_booking,
     update_booking,
     delete_booking,
@@ -16,7 +16,7 @@ from helpers import (
 
 
 def main():
-    # responsible for displaying the main menu and property management menu
+    # responsible for displaying the main menu and property/booking management menu
     while True:
         # continuously runs the loop that calls the main menu
         main_menu()
@@ -25,8 +25,8 @@ def main():
         if choice.lower() == "p":
             main_rental_menu()
         elif choice.lower() == "b": #for booking management
-            booking_management_loop() # >> stuck
-        elif choice.lower() == "e": # to exit the program.
+            booking_management_loop()
+        elif choice.lower() == "e":
             exit_program()
 
 
@@ -48,7 +48,7 @@ def main_rental_menu():
         elif rental_choice == "d":
             rental_id = int(input("Please select property number: "))
             delete_rental(rental_id)
-        elif rental_choice.lower() == "b": # goes back to main() menu
+        elif rental_choice.lower() == "b": # go back to main() menu
             break
         elif rental_choice.lower() == "e":
             exit_program()
@@ -58,29 +58,28 @@ def main_rental_menu():
 def booking_management_loop():
     while True:
         booking_management_menu()
-        # booking_choice = input("> ").strip().lower()
-        booking_choice = input("> ")
+        booking_choice = input("> ").lower()
 
-        if booking_choice == "1":
-            print_bookings()
-        elif booking_choice == "2":
-            #create a new booking after listing all rentals and letting user choose the rental to add new booking. 
+        if booking_choice == "v":
+            print_sorted_bookings()
+        elif booking_choice == "c":
+            #create a new booking after listing all rentals and let the user choose the rental to add new booking. 
             print_all_rentals()
             try:
                 rental_id = int(input("Please select property number: "))
                 create_booking(rental_id)
             except ValueError:
                 print("Invalid input. Please enter a numeric property number.")
-        elif booking_choice == "3":
+        elif booking_choice == "b":
             break
-        elif booking_choice == "4":
+        elif booking_choice == "e":
             exit_program()
         else:
             print("Invalid choice. Please try again.")
 
 
 #create loop for listing rental bookings and update, create, delete booking menu
-# this will be displayed after user select the specific id (rental id). 
+# this will be displayed after user select one of enumerated numbers (rental id). 
 def booking_menu_loop_one(rental_id):
     while True:
         print_bookings_by_rental_id(rental_id)
@@ -121,40 +120,41 @@ def main_menu():
                  | |  ||  | |
                  | |__||__| |
                  |__________|
-    """
+                """
     print(house_art)
-    print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
-    print(">> Enter P for Property Management")
-    print(">> Enter B for Booking Management")
-    print(">> Enter E to exit")
+    print("\n🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠\n")
+    print(">>  P: Manage Property and Bookings")
+    print(">>  B: View/Create Bookings")
+    print(">>  E: Exit")
 
 
 def rental_menu_one():
-    print("\n*** Property Management ***")
-    print("*** Select rental number to manage its bookings ***") # selection based on id; 1,2,3...creates new loop.
-    print("*** Enter A to add new property")
-    print("*** Enter U to update a property ***")
-    print("*** Enter D to delete a property ***")
-    print("*** Enter B to go back to previous menu ***")
-    print("*** Enter E to exit ***")
+    print("\n*** Property Management ***\n")
+    # selection based on id; 1,2,3...creates new loop.
+    print(">> Enter rental number to manage its bookings")
+    print(">> Enter A to add a new property")
+    print(">> Enter U to update a property")
+    print(">> Enter D to delete a property")
+    print(">> Enter B to go back to the previous menu")
+    print(">> Enter E to exit")
 
 
 
 def booking_management_menu():
-    print("\n*** Booking Management ***")
-    print("1. View all bookings")
-    print("2. Create new booking")
-    print("3. Back to Previous Menu")
-    print("4. Exit")
+    print("\n*** Bookings Menu ***")
+    print(">> Enter V to view all bookings")
+    print(">> Enter C to create a new booking")
+    print(">> Enter B to go back to the previous menu")
+    print(">> Enter E to exit")
 
 
 def booking_menu_two():
-    print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
-    print("*** Enter A to add new booking  ***")
-    print("*** Enter U to update a booking  ***")
-    print("*** Enter D to delete a booking  ***")
-    print("*** Enter B to go back to previous menu  ***")
-    print("*** Enter E to exit  ***")
+    print("\n***  Manage Bookings for this property  ***\n")
+    print(">> Enter A to add a new booking")
+    print(">> Enter U to update a booking")
+    print(">> Enter D to delete a cancelled booking")
+    print(">> Enter B to go back to the previous menu")
+    print(">> Enter E to exit\n")
 
 
 if __name__ == "__main__":
