@@ -1,5 +1,8 @@
 from models.__init__ import CONN, CURSOR
 from datetime import datetime
+#import Rental to get rental address for booking info.
+# from models.rental import Rental
+
 
 
 class Booking:
@@ -13,6 +16,7 @@ class Booking:
         self.check_in_date = check_in_date
         self.check_out_date = check_out_date
         self.rental_id = rental_id #fk
+  
 
     # properties to validate the type of data user enters
 

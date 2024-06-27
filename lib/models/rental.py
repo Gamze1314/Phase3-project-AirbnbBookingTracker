@@ -150,19 +150,23 @@ class Rental:
     def instance_from_db(cls, row):
         """Return a Rental object having the attribute values from the table row."""
         # Check the dictionary for an existing instance using the row's primary key
-        rental = cls.all.get(row[0])
-        if rental:
-            rental.property_type = row[1]
-            rental.address = row[2]
-            rental.number_of_rooms = row[3]
-            rental.daily_rate = row[4]
-        else:
-            # if not in dictionary, create new instance and add to dictionary
-            rental = cls(row[1], row[2], row[3], row[4])
-            rental.id = row[0]
-            cls.all[rental.id] = rental
+        if row:
+            rental = cls.all.get(row[0])
+            if rental:
+                rental.property_type = row[1]
+                rental.address = row[2]
+                rental.number_of_rooms = row[3]
+                rental.daily_rate = row[4]
+            else:
+                # if not in dictionary, create new instance and add to dictionary
+                rental = cls(row[1], row[2], row[3], row[4])
+                rental.id = row[0]
+                cls.all[rental.id] = rental
 
-        return rental
+            return rental
+        
+        else:
+            return None
 
     @classmethod
     def find_by_id(cls, id):
