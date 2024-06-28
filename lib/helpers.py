@@ -188,24 +188,6 @@ def validate_guest_name(guest_name):
 
 
 
-
-def validate_booking_date_range(check_in_date, check_out_date):
-    pass
-
-
-# def create_booking(rental_id, guest_name, check_in_date, check_out_date):
-#     pass
-
-
-# def update_booking(booking_id, guest_name, check_in_date, check_out_date):
-#     pass
-
-
-# def delete_booking(booking_id):
-#     pass
-
-
-
 def get_all_bookings():
     return Booking.get_all()
 

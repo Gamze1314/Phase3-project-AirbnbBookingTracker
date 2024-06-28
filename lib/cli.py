@@ -1,5 +1,11 @@
 # lib/cli.py
 
+#version 2
+#Validations added for id, and all rental attributes
+#Valid Property types added for property type input. 
+#
+
+
 # Import helper functions and define main and menu functions.
 from helpers import (
     exit_program,
