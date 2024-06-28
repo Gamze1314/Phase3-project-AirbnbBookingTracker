@@ -23,7 +23,8 @@ def validate_property_type(property_type):
     if property_type.lower().strip() in valid_types:
         return True
     else:
-        print("Please try again by selecting the  option in the main menu.")
+        print("Please try again with valid types by selecting the option in the main menu.")
+        print("\nValid property types :  house, apartment, condo, studio ,hotel\n")
         return False
 
 
@@ -68,6 +69,18 @@ def validate_daily_rate(daily_rate):
         print("The daily rate must be an integer.")
         return False
 
+# validate rental_id ; whether exists in db and numberical value.
+
+
+def validate_rental_id(rental_id):
+    # validating rental id ; edge case if user enters a number that does not exist in the database.if it can't find the rental will keep reprompts you until you enter the correct rental number.
+    if isinstance(rental_id, int):
+        if rental_id > 0:
+            rental = Rental.find_by_id(rental_id)
+            return rental is not None
+    else:
+        return False
+
 
 def create_rental(property_type, address, number_of_rooms, daily_rate):
    # input collection and validation before attempting to create new rental.
@@ -98,6 +111,11 @@ def create_rental(property_type, address, number_of_rooms, daily_rate):
 
 
 def update_rental(rental_id):
+    #true/or false for rental_id validation.
+    #if valid integer => find rental => update.
+    if not validate_rental_id(rental_id):
+        return
+
     rental = Rental.find_by_id(rental_id)
 
     if rental:
@@ -113,10 +131,12 @@ def update_rental(rental_id):
             number_of_rooms = input("Enter the number of rooms: ")
             if not validate_number_of_rooms(number_of_rooms):
                 return
+            number_of_rooms = int(number_of_rooms)
 
             daily_rate = input("Enter the daily booking rate: ")
             if not validate_daily_rate(daily_rate):
                 return
+            daily_rate = int(daily_rate)
 
             # Assign new values to the rental object
             rental.property_type = property_type
@@ -127,41 +147,70 @@ def update_rental(rental_id):
             # Update the rental in the database
             rental.update()
             print(f'The property at {address} has been updated!')
-            print_all_rentals()
-        except Exception:
-            print("Error updating property: ")
+        except Exception as exc:
+            print("Error updating property: ", exc)
 
 
 def delete_rental(rental_id):
+    # true/or false for rental_id validation.
+    # if valid integer => find rental => delete.
+    if not validate_rental_id(rental_id):
+        return
+    
     rental = Rental.find_by_id(rental_id)
-
-    if not rental:
-        print('The property is not found.Please try again.')
-    else:
-        try:
-            rental.delete()  # Delete the rental
-            print(
-                f"\nThe property at {rental.address} has been deleted!\n")
-        except Exception:
-            print("Error deleting property.Please try again.")
+    try:
+        rental.delete()  # Delete the rental
+        print(
+            f"\nThe property at {rental.address} has been deleted!\n")
+    except Exception:
+        print("Error deleting property.Please try again.")
 
 
-# booking helper functions
+# booking helper functions adn validations 
+
+def validate_booking_id(booking_id):
+    # validating booking id user enters; edge case if user enters a number that does not exist in the database.if it can't find the booking will keep reprompts until you enter the correct booking number/selection.
+
+    #bookings will be listed according to the rental selection in the main menu. 
+    #enumerated numbers will not be same as db ids. 
+
+    if not isinstance(booking_id, int) or booking_id <= 0:
+        return False
+
+    booking = Booking.find_by_id(booking_id)
+    if booking is None:
+        return False
+
+    return True
+
+
+def validate_guest_name(guest_name):
+    pass
+
+
+
+
+def validate_booking_date_range(check_in_date, check_out_date):
+    pass
+
+
+# def create_booking(rental_id, guest_name, check_in_date, check_out_date):
+#     pass
+
+
+# def update_booking(booking_id, guest_name, check_in_date, check_out_date):
+#     pass
+
+
+# def delete_booking(booking_id):
+#     pass
+
+
 
 def get_all_bookings():
     return Booking.get_all()
 
-# validate rental_id ; whether exists in db and numberical value.
 
-
-def validate_rental_id(rental_id):
-    # validating rental id ; edge case if user enters a number that does not exist in the database.if it can't find the rental will keep reprompts you until you enter the correct rental number.
-    if isinstance(rental_id, int):
-        if rental_id > 0:
-            rental = Rental.find_by_id(rental_id)
-            return rental is not None
-    else:
-        return False
 
 
 def print_bookings_by_rental_id(rental_id):
@@ -240,7 +289,10 @@ def create_booking(rental_id, guest_name=None):
                     guest_name, check_in_date, check_out_date, rental_id)
                 print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
                 print(
-                    f' 📅 New booking for {booking.guest_name} has been created!')
+                    f'\n📅 New booking for {booking.guest_name} has been created!\n')
+                #print all bookings for this rental
+                print_bookings_by_rental_id(rental_id)
+                break
             except Exception as exc:
                 print("Please try again: ", exc)
     else:
@@ -256,6 +308,8 @@ def update_booking(rental_id):
         bookings = rental.bookings()
         if bookings:
             try:
+                #index of the bookings list starts from 0.
+                #user selects 1, we need to pick the index 0.
                 booking_index = int(
                     input("Enter the booking number you want to update: ")) - 1
                 if 0 <= booking_index < len(bookings):
@@ -278,9 +332,10 @@ def update_booking(rental_id):
                         f" 📅 The booking for {selected_booking.guest_name} has been updated successfully!")
                     print("🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠")
                 else:
-                    print("Invalid booking number. Please try again.")
+                    print("\nInvalid booking number. Please try again.\n")
+            #if user enters "f" ex. string:
             except ValueError:
-                print("Invalid input. Please enter a valid booking number.")
+                print("\nInvalid entry. Please enter a valid booking information.\n")
         else:
             print(f"No bookings found for the property at {rental.address}.")
     else:

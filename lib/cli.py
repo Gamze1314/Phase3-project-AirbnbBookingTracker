@@ -21,7 +21,7 @@ from helpers import (
 
 
 def main():
-    # responsible for displaying the main menu and property/booking management menu
+    # responsible for displaying the main menu.
     while True:
         # continuously runs the loop that calls the main menu
         main_menu()
@@ -29,7 +29,7 @@ def main():
 
         if choice.lower() == "p":
             main_rental_menu()
-        elif choice.lower() == "b":  # for booking management
+        elif choice.lower() == "b":  # for booking viewing/creating.
             booking_management_loop()
         elif choice.lower() == "e":
             exit_program()
@@ -75,24 +75,40 @@ def main_rental_menu():
             if validate_address(address) and validate_property_type(property_type) and validate_daily_rate(daily_rate) and validate_number_of_rooms(number_of_rooms):
                 # if all validations are successful, create a new rental.
 
-                create_rental(property_type, address, number_of_rooms, daily_rate)
+                create_rental(property_type, address,
+                              number_of_rooms, daily_rate)
 
         elif rental_choice == "u":
             rental_id = input(
                 "Please select existing property number (1,2...): ")
-            rental_exists = validate_rental_id(rental_id)
-            if rental_exists:
-                update_rental(rental_id)
+            if rental_id.isdigit():
+                rental_id = int(rental_id)
+                rental_exists = validate_rental_id(rental_id)
+
+                if rental_exists:
+                    # if rental id exists/valid, call update_rental()
+                    update_rental(rental_id)
+                else:
+                    print("\nInvalid rental number. Please try again.\n")
             else:
                 print("\nInvalid rental number. Please try again.\n")
+
         elif rental_choice == "d":
             rental_id = input(
                 "Please select existing property number (1,2...): ")
-            rental_exists = validate_rental_id(rental_id)
-            if rental_exists:
-                delete_rental(rental_id)
+
+            if rental_id.isdigit():
+                rental_id = int(rental_id)
+                print(rental_id)
+                rental_exists = validate_rental_id(rental_id)
+
+                if rental_exists:
+                    delete_rental(rental_id)
+                else:
+                    print("\nInvalid rental number. Please try again.\n")
             else:
                 print("\nInvalid rental number. Please try again.\n")
+
         elif rental_choice.lower() == "b":  # go back to main() menu
             break
         elif rental_choice.lower() == "e":
@@ -125,13 +141,14 @@ def booking_management_loop():
 # this will be displayed after user select one of enumerated numbers (rental id).
 def booking_menu_loop_one(rental_id):
     while True:
-        # validate and print bookings if rental id exists.
-        # print_bookings_by_rental_id(rental_id)
         booking_menu_two()  # options a,u, d, b, e for bookings associated with rental_id
         booking_choice = input(
             "\nPlease enter your selection (A, U, D, B, E): ").lower()  # store user input
 
         if booking_choice == "a":
+            # create a new booking for selected rental_id.
+            # validate the booking checkin/checkout, guest_name
+            # before creating a booking.
             create_booking(rental_id)
         elif booking_choice == "u":
             update_booking(rental_id)
