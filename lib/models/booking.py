@@ -1,4 +1,5 @@
 from models.__init__ import CONN, CURSOR
+
 from datetime import datetime
 #import Rental to get rental address for booking info.
 # from models.rental import Rental

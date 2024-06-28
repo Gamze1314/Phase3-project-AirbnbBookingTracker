@@ -60,7 +60,7 @@ class Rental:
     @daily_rate.setter
     def daily_rate(self, value):
         if not isinstance(value, int):
-            raise TypeError('Daily rate must be an integer')
+            raise TypeError('The daily rate must be a type of an integer.')
         self._daily_rate = value
 
 
@@ -105,7 +105,6 @@ class Rental:
         self.id = CURSOR.lastrowid
         CONN.commit()
 
-# breakpoint()
 
     def update(self):
         """Update the table row corresponding to the current Rental instance."""

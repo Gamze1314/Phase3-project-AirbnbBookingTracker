@@ -41,10 +41,11 @@ def main_rental_menu():
         rental_menu_one()  # Prints options for rentals
         rental_choice = input(
             "\nPlease enter your selection (A, U, D, B, E or 1, 2...to manage bookings): ").lower()
-        
+
         if rental_choice.isdigit():
             rental_id = int(rental_choice)
-            rental_exists = validate_rental_id(rental_id) # return True or false
+            rental_exists = validate_rental_id(
+                rental_id)  # return True or false
             if rental_exists:
                 print_bookings_by_rental_id(rental_id)
                 # if user selects the rental number and is valid, it will show the booking menu to a,u,d,e,b.
@@ -53,32 +54,45 @@ def main_rental_menu():
                 print("\nInvalid rental number. Please try again.\n")
 
         elif rental_choice == "a":
-            #if validation is successful, create rental. it does not keep user stuck in the loop if any of these values is not valid.returns True/false and pass the values to create_rental() func.
+            # if validation is successful, create rental. it does not keep user stuck in the loop if any of these values is not valid.returns True/false and pass the values to create_rental() func.
             address = input("Enter the property's location: ")
-            validate_address(address)
+            if not validate_address(address):
+                continue
 
             property_type = input(
                 "Enter the property's type (house, apartment, condo, studio, hotel): ")
-            validate_property_type(property_type)
-
-            number_of_rooms = input("Enter the number of rooms: ")
-            validate_number_of_rooms(number_of_rooms)
+            if not validate_property_type(property_type):
+                continue
 
             daily_rate = input("Enter the daily booking rate: ")
-            validate_daily_rate(daily_rate)
+            if not validate_daily_rate(daily_rate):
+                continue
 
-            create_rental(address, property_type, daily_rate, number_of_rooms)
+            number_of_rooms = input("Enter the number of rooms: ")
+            if not validate_number_of_rooms(number_of_rooms):
+                continue
+
+            if validate_address(address) and validate_property_type(property_type) and validate_daily_rate(daily_rate) and validate_number_of_rooms(number_of_rooms):
+                # if all validations are successful, create a new rental.
+
+                create_rental(property_type, address, number_of_rooms, daily_rate)
+
         elif rental_choice == "u":
-            rental_id = int(
-                input("Please select existing property number (1,2...): "))
+            rental_id = input(
+                "Please select existing property number (1,2...): ")
             rental_exists = validate_rental_id(rental_id)
             if rental_exists:
                 update_rental(rental_id)
             else:
                 print("\nInvalid rental number. Please try again.\n")
         elif rental_choice == "d":
-            rental_id = int(input("Please select existing property number (1,2...): "))
-            delete_rental(rental_id)
+            rental_id = input(
+                "Please select existing property number (1,2...): ")
+            rental_exists = validate_rental_id(rental_id)
+            if rental_exists:
+                delete_rental(rental_id)
+            else:
+                print("\nInvalid rental number. Please try again.\n")
         elif rental_choice.lower() == "b":  # go back to main() menu
             break
         elif rental_choice.lower() == "e":

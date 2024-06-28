@@ -3,6 +3,9 @@ from models.booking import Booking
 from models.rental import Rental
 from datetime import datetime
 
+# create a list for the property types
+valid_types = ["house", "apartment", "condo", "studio" ,"hotel"]
+
 
 def get_all_rentals():
     return Rental.get_all()
@@ -16,63 +19,82 @@ def print_all_rentals():
 
 
 def validate_property_type(property_type):
-    #create a list for the property types
-    valid_types = ["house", "apartment", "condo", "studio", "hotel"]
+    #validates property type.
     if property_type.lower().strip() in valid_types:
         return True
     else:
-        print("\nInvalid property type. Please choose from: house, apartment, condo, studio, hotel.\n")
-        print("Error creating property.Please try again by selecting A in the main menu.")
+        print("Please try again by selecting the  option in the main menu.")
         return False
-    
+
 
 def validate_address(address):
+
     # Validate the address format (alphanumeric and spaces allowed)
     if address.replace(' ', '').isalnum() and isinstance(address, str):
         return True
     else:
-        print("Invalid address format. Please enter a valid address with alphanumeric characters and spaces only.")
         print("Error creating property.Please try again by selecting A in the main menu.")
         return False
 
 
-def validate_number_of_rooms(rooms):
-    if isinstance(rooms, int):
-        if rooms >= 0:
-            return True
-    else:
-        print("\nNumber of rooms must be 0 or greater than 0.\n")
-        print("Error creating property.Please try again by selecting A in the main menu.")
-        return False
-    
-def validate_daily_rate(rate):
-    if isinstance(rate, int):
-        if rate >= 0:
-            return True
-    else:
-        print("\nDaily rate must be 0 or greater than 0.\n")
-        print("Error creating property.Please try again by selecting A in the main menu.")
+def validate_number_of_rooms(number_of_rooms):
+    # handle number of rooms to be integer and greater than 0.
+    # handle exception when input is not a number.
+    # handle exception when input is not a positive integer.
+
+    try:
+        number_of_rooms = int(number_of_rooms)
+        if isinstance(number_of_rooms, int):
+            if number_of_rooms > 0:
+                return True
+        else:
+            print("\nNumber of rooms must be a number and greater than 0.\n")
+            return False
+    except ValueError:
+        print("Number of rooms must be an integer.")
         return False
 
-def create_rental(address, property_type, daily_rate, number_of_rooms):
+
+def validate_daily_rate(daily_rate):
+    try:
+        daily_rate = int(daily_rate)
+        if isinstance(daily_rate, int):
+            if daily_rate > 0:
+                return True
+        else:
+            print("\nThe daily rate must be a number and greater than 0.\n")
+            return False
+    except ValueError:
+        print("The daily rate must be an integer.")
+        return False
+
+
+def create_rental(property_type, address, number_of_rooms, daily_rate):
+   # input collection and validation before attempting to create new rental.
+   # validation functions are called
+   # if any validations fail, user will be prompted.
+
     if not validate_property_type(property_type):
-        return
+       return
 
     if not validate_address(address):
         return
-    
+
     if not validate_number_of_rooms(number_of_rooms):
         return
-    
+    number_of_rooms = int(number_of_rooms)
+
     if not validate_daily_rate(daily_rate):
         return
+    daily_rate = int(daily_rate)
 
     try:
-        rental = Rental.create(property_type, address,
-                               number_of_rooms, daily_rate)
+        rental = Rental.create(
+            property_type, address, number_of_rooms, daily_rate)
         print(f"{rental} has been created!")
+
     except Exception as exc:
-        print("Error creating department: ", exc)
+        print("\nError creating rental: ", exc)
 
 
 def update_rental(rental_id):
@@ -83,16 +105,16 @@ def update_rental(rental_id):
             property_type = input("Enter the property's type: ")
             if not validate_property_type(property_type):
                 return
-            
+
             address = input("Enter the property's location: ")
             if not validate_address(address):
                 return
-            
-            number_of_rooms = int(input("Enter the number of rooms: "))
+
+            number_of_rooms = input("Enter the number of rooms: ")
             if not validate_number_of_rooms(number_of_rooms):
                 return
-            
-            daily_rate = int(input("Enter the daily booking rate: "))
+
+            daily_rate = input("Enter the daily booking rate: ")
             if not validate_daily_rate(daily_rate):
                 return
 
@@ -119,9 +141,9 @@ def delete_rental(rental_id):
         try:
             rental.delete()  # Delete the rental
             print(
-                f'Success: The property at {rental.address} has been deleted!')
-        except Exception as exc:
-            print("Error deleting property: ", exc)
+                f"\nThe property at {rental.address} has been deleted!\n")
+        except Exception:
+            print("Error deleting property.Please try again.")
 
 
 # booking helper functions
@@ -129,14 +151,18 @@ def delete_rental(rental_id):
 def get_all_bookings():
     return Booking.get_all()
 
-#validate rental_id ; whether exists in db and numberical value.
+# validate rental_id ; whether exists in db and numberical value.
+
+
 def validate_rental_id(rental_id):
     # validating rental id ; edge case if user enters a number that does not exist in the database.if it can't find the rental will keep reprompts you until you enter the correct rental number.
-    if isinstance(rental_id, int) and rental_id > 0:
-        rental = Rental.find_by_id(rental_id)
-        return rental is not None
+    if isinstance(rental_id, int):
+        if rental_id > 0:
+            rental = Rental.find_by_id(rental_id)
+            return rental is not None
     else:
         return False
+
 
 def print_bookings_by_rental_id(rental_id):
     rental = Rental.find_by_id(rental_id)
@@ -150,7 +176,6 @@ def print_bookings_by_rental_id(rental_id):
                 f"{i}. 📅 {booking.guest_name} is checking out on {booking.check_out_date}.")
     else:
         print(f"No bookings found at rental address {rental.address}.")
-
 
 
 def print_sorted_bookings():
@@ -174,6 +199,7 @@ def print_sorted_bookings():
             print(f"The booking {booking.guest_name} at (unknown address)")
 
 # validation for date, takes prompt string and validates the check-in/check-out dates every after entry.
+
 
 def get_valid_date(prompt_message):
     while True:
