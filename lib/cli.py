@@ -81,10 +81,13 @@ def main_rental_menu():
         elif rental_choice == "u":
             rental_id = input(
                 "Please select existing property number (1,2...): ")
-            if rental_id.isdigit():
+            # check if rental_id is a number
+            if rental_id.strip().isdigit():
                 rental_id = int(rental_id)
+                # check for rental_id is in the database, returns a boolean value
                 rental_exists = validate_rental_id(rental_id)
 
+                # if the rental exists, update the rental
                 if rental_exists:
                     # if rental id exists/valid, call update_rental()
                     update_rental(rental_id)
@@ -97,7 +100,7 @@ def main_rental_menu():
             rental_id = input(
                 "Please select existing property number (1,2...): ")
 
-            if rental_id.isdigit():
+            if rental_id.strip().isdigit():
                 rental_id = int(rental_id)
                 print(rental_id)
                 rental_exists = validate_rental_id(rental_id)

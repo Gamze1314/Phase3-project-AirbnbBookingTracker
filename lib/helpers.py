@@ -6,7 +6,6 @@ from datetime import datetime
 # create a list for the property types
 valid_types = ["house", "apartment", "condo", "studio" ,"hotel"]
 
-
 def get_all_rentals():
     return Rental.get_all()
 
@@ -275,6 +274,7 @@ def create_booking(rental_id, guest_name=None):
     rental_id = int(rental_id)
     guest_name = input("Enter the guest's name: ").title()
 
+#letters only
     if guest_name.isalpha():
         # validate check-in/check-out dates if user enters invalid format.
         while True:
