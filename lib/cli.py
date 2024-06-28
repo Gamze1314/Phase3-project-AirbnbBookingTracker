@@ -1,9 +1,13 @@
 # lib/cli.py
 
 #version 2
-#Validations added for id, and all rental attributes
+#Data Integration
+#Validations added for id, and all rental attributes => checks if id exists in database.
 #Valid Property types added for property type input. 
-#
+# Booking attributes have been validated w correct types
+#Exception Handling
+#Error messages added for invalid types, and rental choice, booking choice (1,2,3..)
+# validation helper functions added in cli.py to contunie looping for bookings/rentals CRUD operations.
 
 
 # Import helper functions and define main and menu functions.
