@@ -13,6 +13,10 @@ from helpers import (
     update_booking,
     delete_booking,
     validate_rental_id,
+    validate_address,
+    validate_daily_rate,
+    validate_number_of_rooms,
+    validate_property_type,
 )
 
 
@@ -49,12 +53,31 @@ def main_rental_menu():
                 print("\nInvalid rental number. Please try again.\n")
 
         elif rental_choice == "a":
-            create_rental()
+            #if validation is successful, create rental. it does not keep user stuck in the loop if any of these values is not valid.returns True/false and pass the values to create_rental() func.
+            address = input("Enter the property's location: ")
+            validate_address(address)
+
+            property_type = input(
+                "Enter the property's type (house, apartment, condo, studio, hotel): ")
+            validate_property_type(property_type)
+
+            number_of_rooms = input("Enter the number of rooms: ")
+            validate_number_of_rooms(number_of_rooms)
+
+            daily_rate = input("Enter the daily booking rate: ")
+            validate_daily_rate(daily_rate)
+
+            create_rental(address, property_type, daily_rate, number_of_rooms)
         elif rental_choice == "u":
-            rental_id = int(input("Please select property number (1,2...): "))
-            update_rental(rental_id)
+            rental_id = int(
+                input("Please select existing property number (1,2...): "))
+            rental_exists = validate_rental_id(rental_id)
+            if rental_exists:
+                update_rental(rental_id)
+            else:
+                print("\nInvalid rental number. Please try again.\n")
         elif rental_choice == "d":
-            rental_id = int(input("Please select property number (1,2...): "))
+            rental_id = int(input("Please select existing property number (1,2...): "))
             delete_rental(rental_id)
         elif rental_choice.lower() == "b":  # go back to main() menu
             break

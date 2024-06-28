@@ -15,11 +15,57 @@ def print_all_rentals():
         print(f"{i}. 🏠 {rental}")
 
 
-def create_rental():
-    property_type = input("Enter the property's type: ")
-    address = input("Enter the property's location: ")
-    number_of_rooms = int(input("Enter the number of rooms: "))
-    daily_rate = int(input("Enter the daily booking rate: "))
+def validate_property_type(property_type):
+    #create a list for the property types
+    valid_types = ["house", "apartment", "condo", "studio", "hotel"]
+    if property_type.lower().strip() in valid_types:
+        return True
+    else:
+        print("\nInvalid property type. Please choose from: house, apartment, condo, studio, hotel.\n")
+        print("Error creating property.Please try again by selecting A in the main menu.")
+        return False
+    
+
+def validate_address(address):
+    # Validate the address format (alphanumeric and spaces allowed)
+    if address.replace(' ', '').isalnum() and isinstance(address, str):
+        return True
+    else:
+        print("Invalid address format. Please enter a valid address with alphanumeric characters and spaces only.")
+        print("Error creating property.Please try again by selecting A in the main menu.")
+        return False
+
+
+def validate_number_of_rooms(rooms):
+    if isinstance(rooms, int):
+        if rooms >= 0:
+            return True
+    else:
+        print("\nNumber of rooms must be 0 or greater than 0.\n")
+        print("Error creating property.Please try again by selecting A in the main menu.")
+        return False
+    
+def validate_daily_rate(rate):
+    if isinstance(rate, int):
+        if rate >= 0:
+            return True
+    else:
+        print("\nDaily rate must be 0 or greater than 0.\n")
+        print("Error creating property.Please try again by selecting A in the main menu.")
+        return False
+
+def create_rental(address, property_type, daily_rate, number_of_rooms):
+    if not validate_property_type(property_type):
+        return
+
+    if not validate_address(address):
+        return
+    
+    if not validate_number_of_rooms(number_of_rooms):
+        return
+    
+    if not validate_daily_rate(daily_rate):
+        return
 
     try:
         rental = Rental.create(property_type, address,
@@ -35,9 +81,20 @@ def update_rental(rental_id):
     if rental:
         try:
             property_type = input("Enter the property's type: ")
+            if not validate_property_type(property_type):
+                return
+            
             address = input("Enter the property's location: ")
+            if not validate_address(address):
+                return
+            
             number_of_rooms = int(input("Enter the number of rooms: "))
+            if not validate_number_of_rooms(number_of_rooms):
+                return
+            
             daily_rate = int(input("Enter the daily booking rate: "))
+            if not validate_daily_rate(daily_rate):
+                return
 
             # Assign new values to the rental object
             rental.property_type = property_type
@@ -49,8 +106,8 @@ def update_rental(rental_id):
             rental.update()
             print(f'The property at {address} has been updated!')
             print_all_rentals()
-        except Exception as exc:
-            print("Error updating property: ", exc)
+        except Exception:
+            print("Error updating property: ")
 
 
 def delete_rental(rental_id):
