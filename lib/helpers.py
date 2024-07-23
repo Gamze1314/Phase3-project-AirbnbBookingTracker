@@ -87,7 +87,7 @@ def create_rental(property_type, address, number_of_rooms, daily_rate):
    # if any validations fail, user will be prompted.
 
     if not validate_property_type(property_type):
-       return
+       return # if fails, do not check the rest of the validations => break.
 
     if not validate_address(address):
         return
