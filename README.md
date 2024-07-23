@@ -10,11 +10,11 @@
 - Main Menu
 - Property Management
 - Booking Management
-- Helper Functions
 - Contributing
 
 ## Introduction
-AirbnbBookingTracker is a command-line interface (CLI) application designed to manage property rentals and bookings. The application allows users to add, update, delete, and list properties and bookings efficiently. This CLI application is intended to be built to manage rental properties and guests' bookings for each property. The users are also able to add, update, delete, and list bookings individually.
+
+AirbnbBookingTracker is a command-line interface (CLI) application designed to manage property rentals and bookings. The application allows users to add, update, and delete efficiently, and list properties and bookings. This CLI application is intended to be built to manage rental properties and guests' bookings for each property. The users can also add, update, delete, and list bookings individually.
 
 ## Features
 
@@ -22,7 +22,6 @@ AirbnbBookingTracker is a command-line interface (CLI) application designed to m
 - Booking Management
 
 - View all properties
-- Find rental by guest name
 - Add a new property
 - Update a property
 - Delete a property
@@ -31,14 +30,14 @@ AirbnbBookingTracker is a command-line interface (CLI) application designed to m
 - Create a new booking
 - Update a booking
 - Delete a booking
-- List all bookings for a property
+- List all bookings for a proper
 
 ## Technologies Used
 
 - Python: The primary programming language used to develop the CLI application.
 - SQLite: A lightweight, disk-based database used to store rental and booking data.
 - Object Relational Mapping (ORM): Used for database operations, making it easier to interact with the database using Python objects.
-- Table Relations: Utilized to manage the relationships between rental and bookings table.
+- Table Relations: Utilized to manage the relationships between the rental and bookings table.
 
 ## Installation
 
@@ -61,7 +60,7 @@ Set up the database:
 
 python cli.py
 
-Main Menu
+## Main Menu
 
 - Once you run the application, you will be presented with the main menu:
 
@@ -86,75 +85,43 @@ Main Menu
 
 🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠
 
-> > Enter P for Property Management
-> > Enter B for Booking Management
-> > Enter E to exit
-> > Property Management
-> > Selecting P or p will take you to the Property Management menu:
+> > P: Manage Property and Bookings
+> > B: View/Create Bookings
+> > E: Exit
+
+> > Selecting P or p will take you to the Property/Booking Management menu:
 
 **_ Property Management _**
 
-1. View all properties
-2. Find rental by guest name
-3. Back to Main Menu
-4. Exit
+  Enter rental number to manage its bookings
+  Enter A to add a new property
+  Enter U to update a property
+  Enter D to delete a property
+  Enter B to go back to the previous menu
+  Enter E to exit
 
-- View all properties: Lists all the properties.
-- Find rental by guest name: Finds and lists properties based on guest name.
-- Back to Main Menu: Returns to the main menu.
-- Exit: Exits the application.
+Additional Property Management options can be accessed after selecting P:
 
-Aditional Property Management options can be accessed after viewing properties:
+If you select the property you want to modify its bookings, you will be prompted to enter the following options:
 
-Please select from below options:
+  Enter A to add a new booking
+  Enter U to update a booking
+  Enter D to delete a booking
+  Enter B to go back to the previous menu
+  Enter E to exit
 
-1. Add a new property record
-2. Update a property record
-3. Delete a property record
-4. Back to Main Menu
-5. Exit
-
-Booking Management
+## Booking Management
 
 - Selecting B or b will take you to the Booking Management menu:
 
 **_ Booking Management _**
 
-1. List all bookings
-2. List all bookings for a property
-3. Back to Main Menu
-4. Exit
+ Enter V to view all bookings
+ Enter C to create a new booking for an existing address
+ Enter B to go back to the previous menu
+ Enter E to exit
 
-List all bookings: Additional booking management options can be accessed after viewing bookings:
-
-🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠🏠
-
-1. Create a new booking record
-2. Update a booking record
-3. Delete a booking record
-4. Back to Main Menu
-5. Exit
-
-- List all bookings for a property: Lists bookings for a particular property.
-- Back to Main Menu: Returns to the main menu.
-- Exit: Exits the application.
-
-## Helper Functions
-
-The application uses several helper functions to manage the rental and booking data:
-
-- exit_program: Exits the application.
-- print_rentals: Prints the list of all rentals.
-- find_rental_by_guest_name: Finds and prints rentals based on guest name.
-- create_rental: Adds a new rental property.
-- update_rental: Updates an existing rental property.
-- delete_rental: Deletes a rental property.
-- print_bookings: Lists all bookings.
-- create_booking: Adds a new booking.
-- update_booking: Updates an existing booking.
-- delete_booking: Deletes a booking.
-- list_rental_bookings: Lists all bookings for a specific property.
-- clear_screen: Clears the console screen for better readability.
+You can view all the bookings, and add a new booking for a selected address in the booking management menu. 
 
 ## Contributing
 
