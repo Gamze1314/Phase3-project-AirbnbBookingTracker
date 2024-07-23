@@ -30,7 +30,7 @@ AirbnbBookingTracker is a command-line interface (CLI) application designed to m
 - Create a new booking
 - Update a booking
 - Delete a booking
-- List all bookings for a proper
+- List all bookings for a property
 
 ## Technologies Used
 
